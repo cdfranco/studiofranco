@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Franco - Creative Web Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #0e76fd;
+        --accent-color: #f7a400;
+        --text-color: #333333;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0e76fd, #00c6ff);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')
+          center/cover;
+        opacity: 0.1;
+        animation: pulse 8s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+      }
+
+      .hero p {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: var(--white);
+        color: var(--primary-color);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--white);
+        border: 2px solid var(--white);
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Services Section */
+      .services {
+        padding: 5rem 0;
+        background: var(--light-gray);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .service-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+      }
+
+      .service-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .service-card i {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .service-card h3 {
+        margin-bottom: 1rem;
+      }
+
+      .service-card ul {
+        list-style: none;
+      }
+
+      .service-card li {
+        margin-bottom: 0.5rem;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .service-card li::before {
+        content: '•';
+        color: var(--primary-color);
+        position: absolute;
+        left: 0;
+      }
+
+      /* Projects Section */
+      .projects {
+        padding: 5rem 0;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        aspect-ratio: 16/9;
+      }
+
+      .project-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .project-card:hover img {
+        transform: scale(1.1);
+      }
+
+      .project-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 2rem;
+        color: var(--white);
+      }
+
+      /* About Section */
+      .about {
+        padding: 5rem 0;
+        background: var(--light-gray);
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .about-text h2 {
+        margin-bottom: 1.5rem;
+      }
+
+      .about-image {
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+      }
+
+      /* Testimonials Section */
+      .testimonials {
+        padding: 5rem 0;
+      }
+
+      .testimonial-slider {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .testimonial {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin: 0 1rem;
+      }
+
+      .testimonial-text {
+        font-style: italic;
+        margin-bottom: 1.5rem;
+      }
+
+      .testimonial-author {
+        font-weight: 600;
+      }
+
+      .testimonial-role {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Final CTA Section */
+      .final-cta {
+        padding: 5rem 0;
+        background: var(--primary-color);
+        color: var(--white);
+        text-align: center;
+      }
+
+      .final-cta h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Footer */
+      footer {
+        background: #1a1a1a;
+        color: var(--white);
+        padding: 4rem 0 2rem;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .footer-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        color: var(--white);
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+
+      /* Animation Classes */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>We Build Beautiful, High-Impact Websites</h1>
+          <p>
+            Studio Franco delivers end-to-end design, development, and marketing
+            solutions to elevate your digital presence.
+          </p>
+          <div class="cta-buttons">
+            <a href="#contact" class="btn btn-primary">Start Your Project</a>
+            <a href="#work" class="btn btn-secondary">See Our Work</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>Our Services</h2>
+        </div>
+        <div class="services-grid">
+          <div class="service-card fade-in">
+            <i class="fas fa-code"></i>
+            <h3>Web Design & Development</h3>
+            <ul>
+              <li>Custom website design</li>
+              <li>Responsive development</li>
+              <li>E-commerce solutions</li>
+              <li>Performance optimization</li>
+            </ul>
+          </div>
+          <div class="service-card fade-in">
+            <i class="fas fa-paint-brush"></i>
+            <h3>Branding & Creative</h3>
+            <ul>
+              <li>Logo design</li>
+              <li>Brand identity</li>
+              <li>Visual design</li>
+              <li>Style guides</li>
+            </ul>
+          </div>
+          <div class="service-card fade-in">
+            <i class="fas fa-chart-line"></i>
+            <h3>SEO & Marketing</h3>
+            <ul>
+              <li>Search engine optimization</li>
+              <li>Content strategy</li>
+              <li>Social media marketing</li>
+              <li>Analytics tracking</li>
+            </ul>
+          </div>
+          <div class="service-card fade-in">
+            <i class="fas fa-camera"></i>
+            <h3>Content Creation</h3>
+            <ul>
+              <li>Copywriting</li>
+              <li>Photography</li>
+              <li>Video production</li>
+              <li>Graphic design</li>
+            </ul>
+          </div>
+          <div class="service-card fade-in">
+            <i class="fas fa-cogs"></i>
+            <h3>Maintenance & Analytics</h3>
+            <ul>
+              <li>Website maintenance</li>
+              <li>Security updates</li>
+              <li>Performance monitoring</li>
+              <li>Data analysis</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="work">
+      <div class="container">
+        <div class="section-title">
+          <h2>Featured Projects</h2>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card fade-in">
+            <img
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+              alt="Project 1"
+            />
+            <div class="project-overlay">
+              <h3>E-commerce Platform</h3>
+              <p>Web Development</p>
+            </div>
+          </div>
+          <div class="project-card fade-in">
+            <img
+              src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+              alt="Project 2"
+            />
+            <div class="project-overlay">
+              <h3>Brand Identity</h3>
+              <p>Branding</p>
+            </div>
+          </div>
+          <div class="project-card fade-in">
+            <img
+              src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+              alt="Project 3"
+            />
+            <div class="project-overlay">
+              <h3>Marketing Campaign</h3>
+              <p>Digital Marketing</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-text fade-in">
+            <h2>About Studio Franco</h2>
+            <p>
+              We are a team of passionate designers, developers, and marketers
+              dedicated to creating exceptional digital experiences. With years
+              of experience in the industry, we combine creativity with
+              technical expertise to deliver results that exceed expectations.
+            </p>
+          </div>
+          <div class="about-image fade-in">
+            <img
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+              alt="Our Team"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-title">
+          <h2>What Our Clients Say</h2>
+        </div>
+        <div class="testimonial-slider">
+          <div class="testimonial fade-in">
+            <p class="testimonial-text">
+              "Studio Franco transformed our online presence completely. Their
+              attention to detail and creative approach resulted in a website
+              that perfectly represents our brand."
+            </p>
+            <p class="testimonial-author">Sarah Johnson</p>
+            <p class="testimonial-role">CEO, TechStart</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+      <div class="container">
+        <h2>Ready to Elevate Your Digital Presence?</h2>
+        <a href="#contact" class="btn btn-primary">Book a Free Consultation</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <div class="footer-logo">Studio Franco</div>
+            <p>Creating beautiful digital experiences that make an impact.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-dribbble"></i></a>
+            </div>
+          </div>
+          <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>Email: hello@studiofranco.com</p>
+            <p>Phone: (555) 123-4567</p>
+            <p>Address: 123 Design Street, Creative City</p>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 Studio Franco. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Scroll Animation
+      const fadeElements = document.querySelectorAll('.fade-in');
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
+
+      fadeElements.forEach((element) => {
+        observer.observe(element);
+      });
+
+      // Smooth Scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth',
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
