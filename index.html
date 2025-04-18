@@ -14,6 +14,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
       :root {
         --primary-color: #1a237e;
@@ -182,30 +183,53 @@
       /* Services Section */
       .services {
         padding: 8rem 0;
-        background: var(--light-gray);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        position: relative;
+        overflow: hidden;
       }
 
-      .section-title {
-        text-align: center;
-        margin-bottom: 4rem;
+      .services::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.8) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 255, 255, 0.6) 0%,
+            transparent 40%
+          ),
+          linear-gradient(
+            45deg,
+            rgba(26, 35, 126, 0.1) 0%,
+            rgba(216, 27, 96, 0.1) 50%,
+            rgba(142, 36, 170, 0.1) 100%
+          );
+        animation: gradientFloat 15s ease-in-out infinite;
       }
 
-      .section-title h2 {
-        font-size: 2.75rem;
-        color: var(--text-color);
-        margin-bottom: 1rem;
-        font-weight: 700;
+      .services .container {
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
       }
 
       .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        display: flex;
         gap: 2rem;
-        max-width: 1400px;
-        margin: 0 auto;
+        padding: 2rem 0;
+        animation: scroll 12s linear infinite;
+        width: max-content;
       }
 
       .service-card {
+        flex: 0 0 320px;
         background: var(--white);
         padding: 2rem;
         border-radius: 16px;
@@ -215,7 +239,7 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: 400px;
         border: 1px solid rgba(0, 0, 0, 0.05);
       }
 
@@ -244,12 +268,14 @@
         margin-bottom: 1.25rem;
         font-weight: 600;
         color: var(--text-color);
+        min-height: 3rem;
       }
 
       .service-card ul {
         list-style: none;
         margin-top: auto;
         padding-top: 1rem;
+        min-height: 160px;
       }
 
       .service-card li {
@@ -272,6 +298,51 @@
 
       .service-card:hover li::before {
         transform: translateX(3px);
+      }
+
+      @keyframes scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(calc(-320px * 5 - 2rem * 5));
+        }
+      }
+
+      .services-grid:hover {
+        animation-play-state: paused;
+      }
+
+      @media (max-width: 768px) {
+        .services {
+          padding: 4rem 0;
+        }
+
+        .service-card {
+          flex: 0 0 280px;
+          height: 380px;
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-280px * 5 - 2rem * 5));
+          }
+        }
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-title h2 {
+        font-size: 2.75rem;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+        font-weight: 700;
       }
 
       @media (min-width: 1200px) {
@@ -847,6 +918,10 @@
         margin-right: 0.25rem;
       }
 
+      .logo:hover {
+        color: var(--accent-color);
+      }
+
       .nav-menu {
         display: flex;
         gap: 2rem;
@@ -1051,6 +1126,311 @@
         .form-grid {
           grid-template-columns: 1fr;
           gap: 1rem;
+        }
+      }
+
+      /* Pricing Section */
+      .pricing {
+        padding: 8rem 0;
+        background: var(--light-gray);
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .pricing-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .pricing-card.popular {
+        border: 2px solid var(--accent-color);
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--accent-color);
+        color: var(--white);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .pricing-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .pricing-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+      }
+
+      .pricing-price {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .pricing-period {
+        color: #666;
+        font-size: 1rem;
+      }
+
+      .pricing-features {
+        margin: 2rem 0;
+      }
+
+      .pricing-feature {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        color: #444;
+      }
+
+      .pricing-feature i {
+        color: var(--accent-color);
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+      }
+
+      .pricing-button {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+      }
+
+      .pricing-button.primary {
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        color: var(--white);
+      }
+
+      .pricing-button.secondary {
+        background: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+      }
+
+      .pricing-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .pricing {
+          padding: 4rem 0;
+        }
+
+        .pricing-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .pricing-card {
+          padding: 2rem;
+        }
+      }
+
+      /* Website Showcase Section */
+      .website-showcase {
+        background: #ff4b5c;
+        padding: 6rem 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .showcase-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .showcase-content {
+        max-width: 600px;
+        color: white;
+        position: relative;
+        z-index: 2;
+      }
+
+      .showcase-content h2 {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 700;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      .showcase-features {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 500;
+      }
+
+      .feature i {
+        color: white;
+        font-size: 1.25rem;
+      }
+
+      .btn-light {
+        background: white;
+        color: #ff4b5c;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .btn-light:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .showcase-slider {
+        position: relative;
+        height: 800px;
+        overflow: hidden;
+        perspective: 2000px;
+        transform-style: preserve-3d;
+        padding: 2rem;
+        display: flex;
+        gap: 3rem;
+        width: 100%;
+      }
+
+      .slider-track {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        transform-style: preserve-3d;
+        transform: translateZ(-200px);
+        padding: 1rem;
+        width: calc(50% - 1.5rem);
+      }
+
+      .slider-track.track-1 {
+        animation: scrollVerticalDown 12s linear infinite;
+      }
+
+      .slider-track.track-2 {
+        animation: scrollVerticalUp 12s linear infinite;
+      }
+
+      .mockup {
+        flex: 0 0 400px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        transform: rotateY(-25deg) rotateX(15deg);
+        transition: transform 0.3s ease;
+        transform-origin: center right;
+        padding: 0;
+        margin: 0 1rem;
+        width: 100%;
+        max-width: 800px;
+        aspect-ratio: 16/9;
+      }
+
+      .mockup img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 24px;
+      }
+
+      @keyframes scrollVerticalDown {
+        0% {
+          transform: translateY(0) translateZ(-200px);
+        }
+        100% {
+          transform: translateY(calc(-400px * 3 - 3rem * 3)) translateZ(-200px);
+        }
+      }
+
+      @keyframes scrollVerticalUp {
+        0% {
+          transform: translateY(calc(-400px * 3 - 3rem * 3)) translateZ(-200px);
+        }
+        100% {
+          transform: translateY(0) translateZ(-200px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .showcase-wrapper {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+
+        .showcase-content {
+          text-align: center;
+          margin: 0 auto;
+        }
+
+        .showcase-features {
+          align-items: center;
+        }
+
+        .showcase-slider {
+          height: 500px;
+          perspective: 1800px;
+          gap: 2rem;
+        }
+
+        .slider-track {
+          width: calc(50% - 1rem);
+        }
+
+        .mockup {
+          flex: 0 0 300px;
+          transform: rotateY(-20deg) rotateX(12deg);
+          margin: 0 0.5rem;
+          border-radius: 20px;
+          max-width: 600px;
         }
       }
     </style>
@@ -1320,6 +1700,182 @@
       </div>
     </section>
 
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <div class="section-title">
+          <h2>Choose a Monthly Plan</h2>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card fade-in">
+            <div class="pricing-header">
+              <h3 class="pricing-name">Starter</h3>
+              <div class="pricing-price">$49</div>
+              <div class="pricing-period">per month</div>
+            </div>
+            <div class="pricing-features">
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Basic Website Design</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>1 Page</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Mobile Responsive</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Basic SEO</span>
+              </div>
+            </div>
+            <button class="pricing-button secondary" data-plan="starter">
+              Get Started
+            </button>
+          </div>
+
+          <div class="pricing-card popular fade-in">
+            <div class="popular-badge">Most Popular</div>
+            <div class="pricing-header">
+              <h3 class="pricing-name">Growth</h3>
+              <div class="pricing-price">$99</div>
+              <div class="pricing-period">per month</div>
+            </div>
+            <div class="pricing-features">
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Custom Website Design</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>5 Pages</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Advanced SEO</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Monthly Maintenance</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>1 Free Revision per Month</span>
+              </div>
+            </div>
+            <button class="pricing-button primary" data-plan="growth">
+              Get Started
+            </button>
+          </div>
+
+          <div class="pricing-card fade-in">
+            <div class="pricing-header">
+              <h3 class="pricing-name">Elite</h3>
+              <div class="pricing-price">$199</div>
+              <div class="pricing-period">per month</div>
+            </div>
+            <div class="pricing-features">
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Premium Website Design</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>10+ Pages</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Blog Integration</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Premium SEO</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>Analytics Report</span>
+              </div>
+              <div class="pricing-feature">
+                <i class="fas fa-check"></i>
+                <span>3 Monthly Revisions</span>
+              </div>
+            </div>
+            <button class="pricing-button secondary" data-plan="elite">
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Website Showcase Section -->
+    <section class="website-showcase">
+      <div class="container showcase-wrapper">
+        <div class="showcase-content">
+          <h2>Let's Start Designing Your Website!</h2>
+          <div class="showcase-features">
+            <div class="feature">
+              <i class="fas fa-check-circle"></i>
+              <span>Free Consultation</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check-circle"></i>
+              <span>Hosting & Backup</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check-circle"></i>
+              <span>Custom Forms</span>
+            </div>
+          </div>
+          <a href="#contact" class="btn btn-light">Start Now</a>
+        </div>
+        <div class="showcase-slider">
+          <div class="slider-track track-1">
+            <div class="mockup">
+              <img
+                src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                alt="Website Design 1"
+              />
+            </div>
+            <div class="mockup">
+              <img
+                src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                alt="Website Design 2"
+              />
+            </div>
+            <div class="mockup">
+              <img
+                src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                alt="Website Design 3"
+              />
+            </div>
+          </div>
+          <div class="slider-track track-2">
+            <div class="mockup">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                alt="Website Design 4"
+              />
+            </div>
+            <div class="mockup">
+              <img
+                src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                alt="Website Design 5"
+              />
+            </div>
+            <div class="mockup">
+              <img
+                src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                alt="Website Design 6"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer id="contact">
       <div class="container">
@@ -1348,6 +1904,50 @@
     </footer>
 
     <script>
+      // Initialize Stripe
+      const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY'); // Replace with your publishable key
+
+      // Pricing buttons
+      const pricingButtons = document.querySelectorAll('.pricing-button');
+
+      pricingButtons.forEach((button) => {
+        button.addEventListener('click', async () => {
+          const plan = button.dataset.plan;
+          button.disabled = true;
+          button.textContent = 'Processing...';
+
+          try {
+            // Create a checkout session
+            const response = await fetch('/create-checkout-session', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                plan: plan,
+              }),
+            });
+
+            const session = await response.json();
+
+            // Redirect to Stripe Checkout
+            const result = await stripe.redirectToCheckout({
+              sessionId: session.id,
+            });
+
+            if (result.error) {
+              console.error(result.error.message);
+              button.disabled = false;
+              button.textContent = 'Get Started';
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            button.disabled = false;
+            button.textContent = 'Get Started';
+          }
+        });
+      });
+
       // Scroll Animation
       const fadeElements = document.querySelectorAll('.fade-in');
       const sections = document.querySelectorAll('section');
@@ -1446,6 +2046,60 @@
           mobileMenuBtn.classList.remove('active');
           navMenu.classList.remove('active');
         }
+      });
+
+      // Clone service cards for infinite scroll
+      const servicesGrid = document.querySelector('.services-grid');
+      const serviceCards = document.querySelectorAll('.service-card');
+
+      // Clone cards multiple times for seamless infinite scroll
+      for (let i = 0; i < 3; i++) {
+        serviceCards.forEach((card) => {
+          const clone = card.cloneNode(true);
+          servicesGrid.appendChild(clone);
+        });
+      }
+
+      // Reset animation when it completes
+      servicesGrid.addEventListener('animationend', () => {
+        servicesGrid.style.animation = 'none';
+        servicesGrid.offsetHeight; // Trigger reflow
+        servicesGrid.style.animation = 'scroll 12s linear infinite';
+      });
+
+      // Clone mockups for both tracks
+      const sliderTrack1 = document.querySelector('.slider-track.track-1');
+      const sliderTrack2 = document.querySelector('.slider-track.track-2');
+      const mockups1 = sliderTrack1.querySelectorAll('.mockup');
+      const mockups2 = sliderTrack2.querySelectorAll('.mockup');
+
+      // Clone mockups for first track
+      for (let i = 0; i < 3; i++) {
+        mockups1.forEach((mockup) => {
+          const clone = mockup.cloneNode(true);
+          sliderTrack1.appendChild(clone);
+        });
+      }
+
+      // Clone mockups for second track
+      for (let i = 0; i < 3; i++) {
+        mockups2.forEach((mockup) => {
+          const clone = mockup.cloneNode(true);
+          sliderTrack2.appendChild(clone);
+        });
+      }
+
+      // Reset animations when they complete
+      sliderTrack1.addEventListener('animationend', () => {
+        sliderTrack1.style.animation = 'none';
+        sliderTrack1.offsetHeight; // Trigger reflow
+        sliderTrack1.style.animation = 'scrollVerticalDown 12s linear infinite';
+      });
+
+      sliderTrack2.addEventListener('animationend', () => {
+        sliderTrack2.style.animation = 'none';
+        sliderTrack2.offsetHeight; // Trigger reflow
+        sliderTrack2.style.animation = 'scrollVerticalUp 12s linear infinite';
       });
     </script>
   </body>
