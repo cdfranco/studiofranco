@@ -179,8 +179,14 @@
         display: flex;
         gap: 2rem;
         padding: 2rem 0;
-        animation: scroll 12s linear infinite;
+        animation: scroll 20s linear infinite;
         width: max-content;
+      }
+
+      .services-grid-container {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
       }
 
       .service-card {
@@ -1466,56 +1472,108 @@
         <div class="section-title">
           <h2>Our Services</h2>
         </div>
-        <div class="services-grid">
-          <div class="service-card fade-in">
-            <i class="fas fa-code"></i>
-            <h3>Web Design & Development</h3>
-            <ul>
-              <li>Custom website design</li>
-              <li>Responsive development</li>
-              <li>E-commerce solutions</li>
-              <li>Performance optimization</li>
-            </ul>
-          </div>
-          <div class="service-card fade-in">
-            <i class="fas fa-paint-brush"></i>
-            <h3>Branding & Creative</h3>
-            <ul>
-              <li>Logo design</li>
-              <li>Brand identity</li>
-              <li>Visual design</li>
-              <li>Style guides</li>
-            </ul>
-          </div>
-          <div class="service-card fade-in">
-            <i class="fas fa-chart-line"></i>
-            <h3>SEO & Marketing</h3>
-            <ul>
-              <li>Search engine optimization</li>
-              <li>Content strategy</li>
-              <li>Social media marketing</li>
-              <li>Analytics tracking</li>
-            </ul>
-          </div>
-          <div class="service-card fade-in">
-            <i class="fas fa-camera"></i>
-            <h3>Content Creation</h3>
-            <ul>
-              <li>Copywriting</li>
-              <li>Photography</li>
-              <li>Video production</li>
-              <li>Graphic design</li>
-            </ul>
-          </div>
-          <div class="service-card fade-in">
-            <i class="fas fa-cogs"></i>
-            <h3>Maintenance & Analytics</h3>
-            <ul>
-              <li>Website maintenance</li>
-              <li>Security updates</li>
-              <li>Performance monitoring</li>
-              <li>Data analysis</li>
-            </ul>
+        <div class="services-grid-container">
+          <div class="services-grid">
+            <div class="service-card fade-in">
+              <i class="fas fa-code"></i>
+              <h3>Web Design & Development</h3>
+              <ul>
+                <li>Custom website design</li>
+                <li>Responsive development</li>
+                <li>E-commerce solutions</li>
+                <li>Performance optimization</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-paint-brush"></i>
+              <h3>Branding & Creative</h3>
+              <ul>
+                <li>Logo design</li>
+                <li>Brand identity</li>
+                <li>Visual design</li>
+                <li>Style guides</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-chart-line"></i>
+              <h3>SEO & Marketing</h3>
+              <ul>
+                <li>Search engine optimization</li>
+                <li>Content strategy</li>
+                <li>Social media marketing</li>
+                <li>Analytics tracking</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-camera"></i>
+              <h3>Content Creation</h3>
+              <ul>
+                <li>Copywriting</li>
+                <li>Photography</li>
+                <li>Video production</li>
+                <li>Graphic design</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-cogs"></i>
+              <h3>Maintenance & Analytics</h3>
+              <ul>
+                <li>Website maintenance</li>
+                <li>Security updates</li>
+                <li>Performance monitoring</li>
+                <li>Data analysis</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-code"></i>
+              <h3>Web Design & Development</h3>
+              <ul>
+                <li>Custom website design</li>
+                <li>Responsive development</li>
+                <li>E-commerce solutions</li>
+                <li>Performance optimization</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-paint-brush"></i>
+              <h3>Branding & Creative</h3>
+              <ul>
+                <li>Logo design</li>
+                <li>Brand identity</li>
+                <li>Visual design</li>
+                <li>Style guides</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-chart-line"></i>
+              <h3>SEO & Marketing</h3>
+              <ul>
+                <li>Search engine optimization</li>
+                <li>Content strategy</li>
+                <li>Social media marketing</li>
+                <li>Analytics tracking</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-camera"></i>
+              <h3>Content Creation</h3>
+              <ul>
+                <li>Copywriting</li>
+                <li>Photography</li>
+                <li>Video production</li>
+                <li>Graphic design</li>
+              </ul>
+            </div>
+            <div class="service-card fade-in">
+              <i class="fas fa-cogs"></i>
+              <h3>Maintenance & Analytics</h3>
+              <ul>
+                <li>Website maintenance</li>
+                <li>Security updates</li>
+                <li>Performance monitoring</li>
+                <li>Data analysis</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -2045,59 +2103,19 @@
         }
       });
 
-      // Clone service cards for infinite scroll
+      // Remove the JavaScript cloning since we're doing it in HTML
       const servicesGrid = document.querySelector('.services-grid');
-      const serviceCards = document.querySelectorAll('.service-card');
 
-      // Clone cards multiple times for seamless infinite scroll
-      for (let i = 0; i < 3; i++) {
-        serviceCards.forEach((card) => {
-          const clone = card.cloneNode(true);
-          servicesGrid.appendChild(clone);
-        });
-      }
-
-      // Reset animation when it completes
-      servicesGrid.addEventListener('animationend', () => {
+      // Create a seamless loop by resetting position
+      const resetAnimation = () => {
         servicesGrid.style.animation = 'none';
         servicesGrid.offsetHeight; // Trigger reflow
-        servicesGrid.style.animation = 'scroll 12s linear infinite';
-      });
+        servicesGrid.style.animation = 'scroll 20s linear infinite';
+      };
 
-      // Clone mockups for both tracks
-      const sliderTrack1 = document.querySelector('.slider-track.track-1');
-      const sliderTrack2 = document.querySelector('.slider-track.track-2');
-      const mockups1 = sliderTrack1.querySelectorAll('.mockup');
-      const mockups2 = sliderTrack2.querySelectorAll('.mockup');
-
-      // Clone mockups for first track
-      for (let i = 0; i < 3; i++) {
-        mockups1.forEach((mockup) => {
-          const clone = mockup.cloneNode(true);
-          sliderTrack1.appendChild(clone);
-        });
-      }
-
-      // Clone mockups for second track
-      for (let i = 0; i < 3; i++) {
-        mockups2.forEach((mockup) => {
-          const clone = mockup.cloneNode(true);
-          sliderTrack2.appendChild(clone);
-        });
-      }
-
-      // Reset animations when they complete
-      sliderTrack1.addEventListener('animationend', () => {
-        sliderTrack1.style.animation = 'none';
-        sliderTrack1.offsetHeight; // Trigger reflow
-        sliderTrack1.style.animation = 'scrollVerticalDown 12s linear infinite';
-      });
-
-      sliderTrack2.addEventListener('animationend', () => {
-        sliderTrack2.style.animation = 'none';
-        sliderTrack2.offsetHeight; // Trigger reflow
-        sliderTrack2.style.animation = 'scrollVerticalUp 12s linear infinite';
-      });
+      // Reset animation when it's about to end
+      servicesGrid.addEventListener('animationend', resetAnimation);
+      servicesGrid.addEventListener('animationcancel', resetAnimation);
     </script>
   </body>
 </html>
